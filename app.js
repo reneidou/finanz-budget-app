@@ -1,19 +1,20 @@
 // app.js
 
 // --- 1. Firebase Konfiguration (Klassische Syntax, V8) ---
+// 🚨 WICHTIG: Bitte mit DEINEN Werten aus der Firebase Console ersetzen!
 const firebaseConfig = {
-  apiKey: "AIzaSyAfE3X_1iU9Y5PFrTrKvlY94IermxG7eBI",
-  authDomain: "finanz-budget-app.firebaseapp.com",
-  projectId: "finanz-budget-app",
-  storageBucket: "finanz-budget-app.firebasestorage.app",
-  messagingSenderId: "323702967682",
-  appId: "1:323702967682:web:14387250c9fe08d854539b",
+    apiKey: "AIzaSyAfE3X_1iU9Y5PFrTrKvlY94IermxG7eBI", 
+    authDomain: "finanz-budget-app.firebaseapp.com",
+    projectId: "finanz-budget-app",
+    storageBucket: "finanz-budget-app.firebasestorage.app",
+    messagingSenderId: "323702967682",
+    appId: "1:323702967682:web:14387250c9fe08d854539b",
 };
 
 // Initialisiere Firebase
 firebase.initializeApp(firebaseConfig);
 
-// Hole die Auth-Instanz und Firestore-Instanz
+// Hole die Instanzen
 const auth = firebase.auth();
 const db = firebase.firestore(); 
 
@@ -27,6 +28,7 @@ const authContainer = document.getElementById('auth-container');
 const appContainer = document.getElementById('app-container');
 const authMessage = document.getElementById('auth-message');
 
+// DOM-Elemente für Transaktion
 const amountInput = document.getElementById('amount');
 const descriptionInput = document.getElementById('description');
 const typeSelect = document.getElementById('type');
@@ -35,12 +37,12 @@ const addTransactionBtn = document.getElementById('add-transaction-btn');
 
 // --- 3. Event Listener und Funktionen ---
 
-// 1. Registrieren (VOLLSTÄNDIGE LOGIK EINGEFÜGT)
+// 1. Registrieren
 signupBtn.addEventListener('click', () => {
     const email = emailInput.value;
     const password = passwordInput.value;
     auth.createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
+        .then(() => {
             authMessage.textContent = "Erfolgreich registriert und angemeldet!";
         })
         .catch((error) => {
@@ -48,12 +50,12 @@ signupBtn.addEventListener('click', () => {
         });
 });
 
-// 2. Anmelden (VOLLSTÄNDIGE LOGIK EINGEFÜGT)
+// 2. Anmelden
 loginBtn.addEventListener('click', () => {
     const email = emailInput.value;
     const password = passwordInput.value;
     auth.signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
+        .then(() => {
             authMessage.textContent = "Erfolgreich angemeldet!";
         })
         .catch((error) => {
@@ -70,7 +72,7 @@ logoutBtn.addEventListener('click', () => {
     });
 });
 
-// 4. Transaktion speichern (VOLLSTÄNDIGE LOGIK EINGEFÜGT)
+// 4. Transaktion speichern
 addTransactionBtn.addEventListener('click', addTransaction);
 
 function addTransaction() {
@@ -78,13 +80,14 @@ function addTransaction() {
     const description = descriptionInput.value.trim();
     const type = typeSelect.value;
     
+    // Validierung: Prüft auch, ob ein User angemeldet ist
     if (isNaN(amount) || description === '' || !auth.currentUser) {
         alert("Bitte gültigen Betrag und Beschreibung eingeben und sicherstellen, dass du angemeldet bist.");
         return;
     }
 
     db.collection('transactions').add({
-        userId: auth.currentUser.uid, 
+        userId: auth.currentUser.uid, // WICHTIG für Sicherheitsregeln!
         amount: amount,
         description: description,
         type: type,
@@ -102,14 +105,15 @@ function addTransaction() {
 }
 
 
-// --- 4. Zustandsüberwachung ---
+// --- 4. Zustandsüberwachung (Sichtbarkeit steuern) ---
 auth.onAuthStateChanged((user) => {
     if (user) {
+        // Benutzer ist angemeldet -> App anzeigen
         authContainer.style.display = 'none';
         appContainer.style.display = 'block';
         console.log("Angemeldet als:", user.email, "UID:", user.uid);
-        // HIER würden wir jetzt die Ladefunktion für Transaktionen aufrufen
     } else {
+        // Benutzer ist abgemeldet -> Login-Formular anzeigen
         authContainer.style.display = 'block';
         appContainer.style.display = 'none';
         console.log("Abgemeldet.");
