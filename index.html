@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meine Budget-App</title>
+    <title>AnydayTool</title>
     <link rel="stylesheet" href="styles.css">
     
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
@@ -12,7 +12,7 @@
 </head>
 <body>
     <div id="auth-container">
-        <h2>Anmelden / Registrieren</h2>
+        <h2>Anmelden / Registrieren für AnydayTool</h2>
         <input type="email" id="email" placeholder="E-Mail">
         <input type="password" id="password" placeholder="Passwort">
         <button id="login-btn">Anmelden</button>
@@ -21,16 +21,56 @@
     </div>
 
     <div id="app-container" style="display:none;">
-        <h1>Willkommen in deiner Budget-App!</h1>
-        <button id="logout-btn">Abmelden</button>
+        <h1>Willkommen im AnydayTool!</h1>
         
+        <div id="dashboard-info">
+            <div id="balance-display" style="font-size: 1.5em; margin-bottom: 20px;">
+                Aktuelle Bilanz: <span id="current-balance">0.00 €</span>
+            </div>
+            <p>Aktive Family ID: <span id="current-family-id"></span></p>
+        </div>
+
+        <button id="logout-btn">Abmelden</button>
+
+        <hr>
+
+        <div id="fixed-cost-form">
+            <h3>⚙️ Neue Fixkosten planen</h3>
+            <input type="text" id="fixed-cost-description" placeholder="Beschreibung (z.B. Miete, Versicherung)" required>
+            <input type="number" id="fixed-cost-amount" placeholder="Geplanter monatlicher Betrag (€)" required>
+            <select id="fixed-cost-recurrence">
+                <option value="monthly">Monatlich</option>
+                <option value="quarterly">Quartalsweise</option>
+                <option value="yearly">Jährlich</option>
+            </select>
+            <input type="date" id="fixed-cost-next-due" required>
+            <button id="add-fixed-cost-btn">Fixkosten speichern</button>
+        </div>
+
+        <hr>
+
+        <div id="fixed-costs-list-container">
+            <h3>📆 Geplante Fixkosten (Bestätigung nötig)</h3>
+            <p>Bitte bestätige den bezahlten Betrag, wenn die Zahlung fällig ist:</p>
+            <ul id="fixed-costs-list">
+                </ul>
+        </div>
+
+        <hr>
+
         <div id="transaction-form">
-            <h3>Neue Transaktion</h3>
+            <h3>➕ Neue Bemerkenswerte Ausgabe / Einnahme</h3>
             <input type="number" id="amount" placeholder="Betrag (€)" required>
-            <input type="text" id="description" placeholder="Beschreibung (z.B. Einkauf)" required>
+            <input type="text" id="description" placeholder="Beschreibung (z.B. Sofa, Urlaub)" required>
             <select id="type">
                 <option value="expense">Ausgabe (-)</option>
                 <option value="income">Einnahme (+)</option>
+            </select>
+            <select id="certainty">
+                <option value="exact">Betrag ist exakt</option>
+                <option value="high">Spanne (hoch) - z.B. +/- 10%</option>
+                <option value="medium">Spanne (mittel) - z.B. +/- 20%</option>
+                <option value="low">Spanne (gering) - z.B. +/- 30%</option>
             </select>
             <button id="add-transaction-btn">Transaktion speichern</button>
         </div>
@@ -38,10 +78,11 @@
         <hr>
 
         <div id="transaction-list-container">
-            <h3>Deine Transaktionen</h3>
+            <h3>📈 Bemerkenswerte Transaktionen</h3>
             <ul id="transaction-list">
                 </ul>
         </div>
+        
     </div>
 
     <script src="app.js"></script>
