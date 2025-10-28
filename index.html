@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meine Budget-App</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+</head>
+<body>
+    <div id="auth-container">
+        <h2>Anmelden / Registrieren</h2>
+        <input type="email" id="email" placeholder="E-Mail">
+        <input type="password" id="password" placeholder="Passwort">
+        <button id="login-btn">Anmelden</button>
+        <button id="signup-btn">Registrieren</button>
+        <p id="auth-message"></p>
+    </div>
+
+    <div id="app-container" style="display:none;">
+        <h1>Willkommen in deiner Budget-App!</h1>
+        <button id="logout-btn">Abmelden</button>
+        </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
