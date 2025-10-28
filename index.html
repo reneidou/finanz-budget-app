@@ -7,31 +7,37 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 </head>
 <body>
-    <div id="transaction-form">
-    <h3>Neue Transaktion</h3>
-    <input type="number" id="amount" placeholder="Betrag (€)" required>
-    <input type="text" id="description" placeholder="Beschreibung (z.B. Einkauf)" required>
-    <select id="type">
-        <option value="expense">Ausgabe (-)</option>
-        <option value="income">Einnahme (+)</option>
-    </select>
-    <button id="add-transaction-btn">Transaktion speichern</button>
-</div>
+    <div id="auth-container">
+        </div>
 
-<hr>
+    <div id="app-container" style="display:none;">
+        <h1>Willkommen in deiner Budget-App!</h1>
+        <button id="logout-btn">Abmelden</button>
+        
+        <div id="transaction-form">
+            <h3>Neue Transaktion</h3>
+            <input type="number" id="amount" placeholder="Betrag (€)" required>
+            <input type="text" id="description" placeholder="Beschreibung (z.B. Einkauf)" required>
+            <select id="type">
+                <option value="expense">Ausgabe (-)</option>
+                <option value="income">Einnahme (+)</option>
+            </select>
+            <button id="add-transaction-btn">Transaktion speichern</button>
+        </div>
 
-<div id="transaction-list-container">
-    <h3>Deine Transaktionen</h3>
-    <ul id="transaction-list">
-        </ul>
-</div>
+        <hr>
+
+        <div id="transaction-list-container">
+            <h3>Deine Transaktionen</h3>
+            <ul id="transaction-list">
+                </ul>
+        </div>
+        
+    </div>
 
     <script src="app.js"></script>
 </body>
 </html>
-
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
