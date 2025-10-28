@@ -46,6 +46,15 @@ const logoutBtn = document.getElementById('logout-btn');
 const authContainer = document.getElementById('auth-container');
 const appContainer = document.getElementById('app-container');
 const authMessage = document.getElementById('auth-message');
+// app.js
+
+// ... bestehende Konstanten für Auth (emailInput, loginBtn, etc.)
+
+// NEUE DOM-Elemente für Transaktion
+const amountInput = document.getElementById('amount');
+const descriptionInput = document.getElementById('description');
+const typeSelect = document.getElementById('type');
+const addTransactionBtn = document.getElementById('add-transaction-btn');
 
 // --- Event Listener ---
 
@@ -101,3 +110,44 @@ auth.onAuthStateChanged((user) => {
         console.log("Abgemeldet.");
     }
 });
+
+// 4. Transaktion speichern
+addTransactionBtn.addEventListener('click', addTransaction);
+
+/**
+ * Speichert eine neue Transaktion in der Firestore-Datenbank.
+ * WICHTIG: Die userId wird hinzugefügt, um die Sicherheitsregeln zu erfüllen!
+ */
+function addTransaction() {
+    const amount = parseFloat(amountInput.value);
+    const description = descriptionInput.value.trim();
+    const type = typeSelect.value;
+    
+    // Einfache Validierung und Prüfung auf angemeldeten User
+    if (isNaN(amount) || description === '' || !auth.currentUser) {
+        alert("Bitte gültigen Betrag und Beschreibung eingeben und sicherstellen, dass du angemeldet bist.");
+        return;
+    }
+
+    db.collection('transactions').add({
+        // WICHTIG: Die ID des angemeldeten Benutzers wird als Feld gespeichert.
+        // Die Firestore-Regeln erlauben nur Zugriff, wenn diese ID mit der User-ID übereinstimmt.
+        userId: auth.currentUser.uid, 
+        amount: amount,
+        description: description,
+        type: type, // 'income' oder 'expense'
+        timestamp: firebase.firestore.FieldValue.serverTimestamp() // Zeitstempel vom Server
+    })
+    .then(() => {
+        // Formular nach erfolgreichem Speichern leeren
+        amountInput.value = '';
+        descriptionInput.value = '';
+        console.log("Transaktion erfolgreich in Firestore gespeichert.");
+    })
+    .catch((error) => {
+        console.error("Fehler beim Speichern der Transaktion: ", error);
+        alert("Fehler beim Speichern. Bitte Konsole prüfen.");
+    });
+}
+
+// ... (Restlicher Code, onAuthStateChanged, etc.)

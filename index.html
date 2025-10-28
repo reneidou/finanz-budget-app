@@ -9,19 +9,24 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 </head>
 <body>
-    <div id="auth-container">
-        <h2>Anmelden / Registrieren</h2>
-        <input type="email" id="email" placeholder="E-Mail">
-        <input type="password" id="password" placeholder="Passwort">
-        <button id="login-btn">Anmelden</button>
-        <button id="signup-btn">Registrieren</button>
-        <p id="auth-message"></p>
-    </div>
+    <div id="transaction-form">
+    <h3>Neue Transaktion</h3>
+    <input type="number" id="amount" placeholder="Betrag (€)" required>
+    <input type="text" id="description" placeholder="Beschreibung (z.B. Einkauf)" required>
+    <select id="type">
+        <option value="expense">Ausgabe (-)</option>
+        <option value="income">Einnahme (+)</option>
+    </select>
+    <button id="add-transaction-btn">Transaktion speichern</button>
+</div>
 
-    <div id="app-container" style="display:none;">
-        <h1>Willkommen in deiner Budget-App!</h1>
-        <button id="logout-btn">Abmelden</button>
-        </div>
+<hr>
+
+<div id="transaction-list-container">
+    <h3>Deine Transaktionen</h3>
+    <ul id="transaction-list">
+        </ul>
+</div>
 
     <script src="app.js"></script>
 </body>
