@@ -35,6 +35,8 @@ firebase.initializeApp(firebaseConfig);
 // Hole die Auth-Instanz
 const auth = firebase.auth();
 
+const db = firebase.firestore();
+
 // DOM-Elemente
 const emailInput = document.getElementById('email');
 const passwordInput = document.getElementById('password');
